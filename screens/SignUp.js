@@ -6,19 +6,24 @@ const SignUp = ({navigation}) => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  // const handleSubmit = async() => {
-  //   if (username === '' || password === '') {
-  //     alert("All fields are required");
-  //     return
-  //   }
-  //   const resp = await axios.post("address", {username, password});
-  //   if (resp.data.error)
-  //     alert(resp.data.error)
-  //   else {
-  //     // 인증 코드
-  //     alert("Sign up successful");
-  //   }
-  // }
+  const handleSubmit = async() => {
+    if (username === '' || password === '') {
+      alert("모든 필드를 입력해주세요.");
+      return;
+    }
+    
+    try {
+      const resp = await axios.post("http://172.10.9.14:80/signup/", {user_name: username, password: password});
+      if (resp.data.status === "User created") {
+        alert("Signup Successful");
+        navigation.navigate('SignIn')
+      } else {
+        alert(resp.data.detail);
+      }
+    } catch(error) {
+      console.error(error);
+    }
+  }
 
 
   return (
@@ -34,7 +39,7 @@ const SignUp = ({navigation}) => {
           <TextInput style={styles.signupInput} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} autoComplete="new-password"/>
         </View>
         <TouchableOpacity
-          // onPress={handleSubmit}
+          onPress={handleSubmit}
           style={styles.buttonStyle}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
