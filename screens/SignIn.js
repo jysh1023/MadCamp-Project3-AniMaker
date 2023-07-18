@@ -14,7 +14,7 @@ const SignIn = ({navigation}) => {
             alert("All fields are required");
             return;
         }
-        const resp = await axios.post("http://143.248.229.159:8000/api/signin", { email, password });
+        const resp = await axios.post("address", { email, password });
         if (resp.data.error)
             alert(resp.data.error)
         else {

@@ -13,11 +13,11 @@ const SignUp = ({navigation}) => {
       alert("All fields are required");
       return
     }
-    const resp = await axios.post("http://143.248.229.159:8000/api/signup", {name, email, password});
+    const resp = await axios.post("address", {name, email, password});
     if (resp.data.error)
       alert(resp.data.error)
     else {
-      await AsyncStorage.setItem("auth-rn", JSON.stringify(data))
+      // await AsyncStorage.setItem("auth-rn", JSON.stringify(data))
       alert("Sign up successful");
     }
   }

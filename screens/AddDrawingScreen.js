@@ -36,6 +36,10 @@ export default function AddDrawingScreen() {
     }
   }
 
+  // const handleSubmit = () => {
+
+  // }
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -45,6 +49,9 @@ export default function AddDrawingScreen() {
         <Button title="Gallery" onPress={pickImage} />
         <Button title="Camera" onPress={takePicture} />
       </View>
+      <Button title="Upload"
+      // onPress={handleSubmit}
+      />
     </View>
   );
 }

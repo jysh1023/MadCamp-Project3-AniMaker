@@ -69,9 +69,9 @@ const EditMaskScreen = () => {
         </ViewShot>
       </GestureHandlerRootView>
 
-      <TouchableOpacity onPress={handleExport} style={styles.exportButton}>
+      {/* <TouchableOpacity onPress={handleExport} style={styles.exportButton}>
         <Text style={styles.exportButtonText}>Export Image</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </ View>
   )
 }
