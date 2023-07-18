@@ -30,7 +30,7 @@ const imageData = [
 const MotionItem = ({item, onPress, backgroundColor}) => (
   <TouchableOpacity onPress={onPress} >
     <View style={[styles.card, {backgroundColor: backgroundColor}]}>
-      <Image source={item.motion} style={{width: 100, height: 100}}/>
+      <Image source={item.image} style={{width: 100, height: 100}}/>
     </View>
     <Text style={{margin: 10, textAlign: 'center'}}>{item.name}</Text>
   </TouchableOpacity>
@@ -64,7 +64,13 @@ const HomeScreen = ({navigation}) => {
         item={item}
         onPress={() => {
           setSelected(item.name);
-          setActivated(true);
+          if(selected != 'none') {
+            setActivated(true);
+            setGifData(motionPreviewData)
+          } else {
+            setActivated(false)
+          }
+
         }}
         backgroundColor={backgroundColor}
       />
@@ -75,7 +81,7 @@ const HomeScreen = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.carouselContainer}>
         <Text style={styles.text}>My Characters</Text>
-        <CustomImageCarousal data={activated === false? imageData : motionPreviewData} autoPlay={false} pagination={true} />
+        <CustomImageCarousal data={activated === false? imageData : gifData} autoPlay={false} pagination={true} />
       </View>
       <View>
         <FlatList

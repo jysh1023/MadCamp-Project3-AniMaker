@@ -2,28 +2,32 @@ import React from 'react'
 
 const motionPreviewData = [
   {
+    name: "none",
+    image: require('../assets/dummy_texture.png')
+  },
+  {
     name: "jumping_jacks",
-    motion: require('../assets/motionPreview/jumping_jacks.gif')
+    image: require('../assets/motionPreview/jumping_jacks.gif')
   },
   {
     name: "dab",
-    motion: require('../assets/motionPreview/dab.gif')
+    image: require('../assets/motionPreview/dab.gif')
   },
   {
     name: "jumping",
-    motion: require('../assets/motionPreview/dummy_motion.gif')
+    image: require('../assets/motionPreview/dummy_motion.gif')
   },
   {
     name: "wave_hello",
-    motion: require('../assets/motionPreview/dummy_motion.gif')
+    image: require('../assets/motionPreview/dummy_motion.gif')
   },
   {
     name: "zombie",
-    motion: require('../assets/motionPreview/zombie.gif')
+    image: require('../assets/motionPreview/zombie.gif')
   },
   {
     name: "jesse_dance",
-    motion: require('../assets/motionPreview/jesse_dance.gif')
+    image: require('../assets/motionPreview/jesse_dance.gif')
   }
 ];
 
