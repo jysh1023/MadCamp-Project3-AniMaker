@@ -34,28 +34,38 @@ export default function AddDrawingScreen( {navigation} ) {
       alert('No image selected!')
     }
   }
-
-  // const handleSubmit = async() => {
-
-  //   try {
-  //     if (!image) {
-  //       alert("Please select an image.")
-  //     }
-
-  //     await axios.post("server address", {image})
-  //     .then(res => {
-  //       console.log(res.data); })
-  //     .catch(err => console.error(err));
-  //     alert('Image upload succesful!');
-
-  //     navigation.navigate('Edit Mask');
-
-  //   } catch (error) {
-  //     alert('Error uploading iamge: ', error);
-  //   }
-
-  // }
-
+  
+  const handleSubmit = async() => {
+    try {
+      if (!image) {
+        alert("Please select an image.");
+        return;
+      }
+      console.log('서버에 이미지 요청을 보냅니다...');
+      
+      const formData = new FormData();
+      formData.append('file', {
+        uri: image,
+        name: 'image.jpg',
+        type: 'image/png', 
+      });
+  
+      await axios.post("http://172.10.9.14:80/upload_image/", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', 
+        }
+      })
+      .then(res => {
+        console.log(res.data);
+        alert('Image upload successful!');
+        navigation.navigate('Edit Mask');
+      })
+      .catch(err => console.error(err));
+      
+    } catch (error) {
+      alert('Error uploading image: ', error);
+    }
+  }
   return (
     <View style={styles.container}>
     <View style={styles.imageContainer}>
@@ -65,7 +75,7 @@ export default function AddDrawingScreen( {navigation} ) {
       <Button title="Gallery" onPress={pickImage} />
       <Button title="Camera" onPress={takePicture} />
     </View>
-    <Button title="Upload" /* onPress={handleSubmit} */ />
+    <Button title="Upload" onPress={handleSubmit} />
   </View>
   );
 }
