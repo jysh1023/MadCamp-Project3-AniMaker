@@ -2,26 +2,31 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'reac
 import React, { useState } from 'react'
 import axios from 'axios';
 
-
 const SignIn = ({navigation}) => {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
-    // const handleSubmit = async () => {
-    //     if ( username === '' || password === '') {
-    //         alert("All fields are required");
-    //         return;
-    //     }
-    //     const resp = await axios.post("address", { email, password });
-    //     if (resp.data.error)
-    //         alert(resp.data.error)
-    //     else {
-    //         // 인증 코드
-    //         alert("Sign in successful");
-    //     }
-
-
-    // };
+    const handleSubmit = async () => {
+        if ( username === '' || password === '') {
+            alert("모든 필드를 입력해주세요.");
+            return;
+        }
+        try {
+            console.log('서버에 로그인 요청을 보냅니다...');
+            const resp = await axios.post("http://172.10.9.14:80/login/", 
+                                          { user_name: username, password: password }, 
+                                          { headers: { 'Content-Type': 'application/json' } });
+            console.log('서버로부터의 응답:', resp.data);
+            if (resp.data.status === "Login successful") {
+                alert("Login Successful");
+                navigation.navigate('Home')
+            } else {
+                alert("Login Failed");
+            }
+        } catch(error) {
+            console.log('서버 요청 중 오류가 발생했습니다:', error);
+        }
+    };
     return (
         <View style={styles.container}>
             <View style={{ marginVertical: 100 }}>
@@ -35,7 +40,7 @@ const SignIn = ({navigation}) => {
                     <TextInput style={styles.signupInput} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} autoComplete="password" />
                 </View>
                 <TouchableOpacity
-                    // onPress={handleSubmit}
+                    onPress={handleSubmit}
                     style={styles.buttonStyle}>
                     <Text style={styles.buttonText}>Submit</Text>
                 </TouchableOpacity>
