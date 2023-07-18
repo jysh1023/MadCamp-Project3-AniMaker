@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react'
-import { View, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+import { View, Image, StyleSheet, Dimensions, TouchableOpacity, Button} from 'react-native'
 import { Canvas, Path} from '@shopify/react-native-skia'
 import { Gesture, GestureDetector, GestureHandlerRootView} from 'react-native-gesture-handler'
 import ViewShot from 'react-native-view-shot';
 // import RNFS from 'react-native-fs';
 import axios from 'axios';
 
-const EditMaskScreen = () => {
+const EditMaskScreen = ({navigation}) => {
 
   const [data, setData] = useState([]);
 
@@ -89,6 +89,7 @@ const EditMaskScreen = () => {
       {/* <TouchableOpacity onPress={handleExport} style={styles.exportButton}>
         <Text style={styles.exportButtonText}>Export Image</Text>
       </TouchableOpacity> */}
+      <Button title="Next" onPress={navigation.navigate('Edit Joint')} />
     </ View>
   )
 }

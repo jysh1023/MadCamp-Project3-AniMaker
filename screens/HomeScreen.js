@@ -10,7 +10,6 @@ import {
   TouchableOpacity } from 'react-native'
 import React , {useState, useEffect} from 'react'
 import CustomImageCarousal from '../components/CustomImageCarousal'
-import GIFCard from '../components/GIFCard'
 import motionPreviewData from '../context/MotionPreviewData'
 
 
@@ -43,6 +42,7 @@ const HomeScreen = ({navigation}) => {
   const [selected, setSelected] = useState();
   const [activated, setActivated] = useState(false);
 
+
     // texture, motion에 대한 정보 받아오기
     // useEffect(() => {
     //   const getData = async () => {
@@ -66,7 +66,10 @@ const HomeScreen = ({navigation}) => {
           setSelected(item.name);
           if(selected != 'none') {
             setActivated(true);
-            setGifData(motionPreviewData)
+            console.log(motionPreviewData);
+            const index = motionPreviewData.findIndex(o => o.name === selected);
+            console.log(motionPreviewData[index]);
+
           } else {
             setActivated(false)
           }
@@ -81,7 +84,7 @@ const HomeScreen = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.carouselContainer}>
         <Text style={styles.text}>My Characters</Text>
-        <CustomImageCarousal data={activated === false? imageData : gifData} autoPlay={false} pagination={true} />
+        <CustomImageCarousal data={activated === false? imageData : motionPreviewData} autoPlay={false} pagination={true} />
       </View>
       <View>
         <FlatList

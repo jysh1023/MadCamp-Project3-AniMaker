@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import AddDrawingScreen from './screens/AddDrawingScreen';
 import EditMaskScreen from './screens/EditMaskScreen';
+import EditJointScreen from './screens/EditJointScreen';
 import HomeScreen from './screens/HomeScreen';
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
@@ -23,10 +24,11 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Add Drawing" component={AddDrawingScreen} />
           <Stack.Screen name="Edit Mask" component={EditMaskScreen} />
+          <Stack.Screen name="Edit Joint" component={EditJointScreen} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
-
 
   );
 }
