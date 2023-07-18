@@ -5,7 +5,7 @@ import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-g
 import ViewShot from 'react-native-view-shot';
 import { captureRef } from 'react-native-view-shot';
 
-const EditMaskScreen = () => {
+const EditMaskScreen = ({navigation}) => {
   const [color, setColor] = useState('#000000');
   const [stroke, setStroke] = useState(5);
   const [paths, setPaths] = useState([]);
@@ -105,6 +105,8 @@ const EditMaskScreen = () => {
           <Image source={{ uri: viewShotURI }} style={{width: 200, height: 200}} />
         </View>
       )}
+
+      <Button title='Next' onPress={() => navigation.navigate('Edit Joint')}/>
 
     </View>
   );
