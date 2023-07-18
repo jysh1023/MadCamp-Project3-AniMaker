@@ -14,10 +14,10 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='Home'>
+        <Stack.Navigator initialRouteName="Home" >
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Add Character" component={AddDrawingScreen} />
-          {/* <Stack.Screen name="Edit Mask" component={EditMaskScreen} /> */}
+          <Stack.Screen name="Add Drawing" component={AddDrawingScreen} />
+          <Stack.Screen name="Edit Mask" component={EditMaskScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

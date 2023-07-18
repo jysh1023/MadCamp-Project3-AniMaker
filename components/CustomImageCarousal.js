@@ -75,6 +75,7 @@ const CustomImageCarousal = ({data, autoPlay, pagination}) => {
         showsHorizontalScrollIndicator={false}>
         {newData.map((item, index) => {
           return (
+
             <CustomImage
               key={index}
               index={index}

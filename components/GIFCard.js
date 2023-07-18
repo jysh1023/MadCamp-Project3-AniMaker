@@ -2,9 +2,15 @@ import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 
 const GIFCard = ({ item }) => {
+
+
+  const handleSelect = () => {
+
+  }
+
   return (
     <View style={styles.card}>
-      <Image source={item.motion} style={{width: 100, height: 100}} />
+      <Image source={item.motion} style={{width: 100, height: 100}} onPress={handleSelect}/>
     </View>
   );
 };

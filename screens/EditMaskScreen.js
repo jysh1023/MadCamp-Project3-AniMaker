@@ -4,8 +4,11 @@ import { Canvas, Path} from '@shopify/react-native-skia'
 import { Gesture, GestureDetector, GestureHandlerRootView} from 'react-native-gesture-handler'
 import ViewShot from 'react-native-view-shot';
 // import RNFS from 'react-native-fs';
+import axios from 'axios';
 
 const EditMaskScreen = () => {
+
+  const [data, setData] = useState([]);
 
   const [color, setColor] = useState('#000000');
   const [stroke, setStroke] = useState(5);
@@ -39,6 +42,20 @@ const EditMaskScreen = () => {
   //   }
   // };
 
+
+  // mask, texture, joint에 대한 정보 받아오기
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const res = await axios.get('server address', {});
+  //       setData(res.data)
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getData();
+  // }, []);
+
   return (
 
     <View style={styles.container}>
@@ -47,7 +64,7 @@ const EditMaskScreen = () => {
       </View>
 
       <GestureHandlerRootView style={styles.maskContainer} >
-        <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1 }}>
+        {/* <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1 }}> */}
           <View style={styles.imageContainer}>
             <Image source={require('../assets/dummy_mask.png')} style={styles.mask} resizeMode='contain' />
           </View>
@@ -61,12 +78,12 @@ const EditMaskScreen = () => {
                       path={p.join(' ')}
                       strokeWidth={stroke}
                       style="stroke"
-                      color= {color} />
+                      color={color} />
                   ))}
                 </Canvas>
               </GestureDetector>
           </View>
-        </ViewShot>
+        {/* </ViewShot> */}
       </GestureHandlerRootView>
 
       {/* <TouchableOpacity onPress={handleExport} style={styles.exportButton}>

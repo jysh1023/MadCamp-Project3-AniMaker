@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform, Dimensions, StyleSheet } from 'react-native';
+import { Button, Image, View, Dimensions, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 
-// const PlaceholderImage = require('../assets/')
-
-export default function AddDrawingScreen() {
+export default function AddDrawingScreen( {navigation} ) {
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -36,7 +35,24 @@ export default function AddDrawingScreen() {
     }
   }
 
-  // const handleSubmit = () => {
+  // const handleSubmit = async() => {
+
+  //   try {
+  //     if (!image) {
+  //       alert("Please select an image.")
+  //     }
+
+  //     await axios.post("server address", {image})
+  //     .then(res => {
+  //       console.log(res.data); })
+  //     .catch(err => console.error(err));
+  //     alert('Image upload succesful!');
+
+  //     navigation.navigate('Edit Mask');
+
+  //   } catch (error) {
+  //     alert('Error uploading iamge: ', error);
+  //   }
 
   // }
 

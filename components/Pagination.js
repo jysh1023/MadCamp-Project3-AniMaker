@@ -1,7 +1,7 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
-
 import Dot from './Dot';
+
 const Pagination = ({data, x, size}) => {
   return (
     <View style={styles.paginationContainer}>
