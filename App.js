@@ -17,9 +17,9 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="SignUp" >
-          <Stack.Screen name="SignIn" component={SignIn} />
-          <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Navigator initialRouteName="Home" >
+          {/* <Stack.Screen name="SignIn" component={SignIn} />
+          <Stack.Screen name="SignUp" component={SignUp} /> */}
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Add Drawing" component={AddDrawingScreen} />
           <Stack.Screen name="Edit Mask" component={EditMaskScreen} />
