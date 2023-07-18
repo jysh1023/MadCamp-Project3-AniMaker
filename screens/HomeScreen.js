@@ -7,11 +7,12 @@ import {
   SafeAreaView,
   StatusBar,
   Button,
-  TouchableOpacity } from 'react-native'
+  TouchableOpacity,
+  Dimensions} from 'react-native'
 import React , {useState, useEffect} from 'react'
 import CustomImageCarousal from '../components/CustomImageCarousal'
 import motionPreviewData from '../context/MotionPreviewData'
-
+import { center } from '@shopify/react-native-skia'
 
 const imageData = [
   {
@@ -39,9 +40,8 @@ const HomeScreen = ({navigation}) => {
 
   // const [imageData, setImageData] = useState([]);
   const [gifData, setGifData] = useState([]);
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState('none');
   const [activated, setActivated] = useState(false);
-
 
     // texture, motion에 대한 정보 받아오기
     // useEffect(() => {
@@ -62,29 +62,30 @@ const HomeScreen = ({navigation}) => {
     return (
       <MotionItem
         item={item}
-        onPress={() => {
-          setSelected(item.name);
-          if(selected != 'none') {
-            setActivated(true);
-            console.log(motionPreviewData);
-            const index = motionPreviewData.findIndex(o => o.name === selected);
-            console.log(motionPreviewData[index]);
-
-          } else {
-            setActivated(false)
-          }
-
-        }}
+        onPress={() => setSelected(item.name)}
         backgroundColor={backgroundColor}
       />
     )
   }
 
+  useEffect(() => {
+    if(selected != 'none') {
+      setActivated(true);
+      const index = motionPreviewData.findIndex(o => o.name === selected);
+      setGifData([motionPreviewData[index]]);
+    } else {
+      setActivated(false)
+      setGifData([])
+    }
+  }, [selected]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.carouselContainer}>
-        <Text style={styles.text}>My Characters</Text>
-        <CustomImageCarousal data={activated === false? imageData : motionPreviewData} autoPlay={false} pagination={true} />
+        <CustomImageCarousal
+        data={activated === false ? imageData : gifData}
+        autoPlay={false}
+        pagination={activated === false ? true : false} />
       </View>
       <View>
         <FlatList
@@ -95,7 +96,9 @@ const HomeScreen = ({navigation}) => {
           extraData={selected}
         />
       </View>
-      <Button title="Add Drawing" onPress={()=> navigation.navigate('Add Drawing')} />
+      <TouchableOpacity style={styles.addButton} onPress={()=> navigation.navigate('Add Drawing')}>
+        <Text style={styles.buttonText}>Add Drawing</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -105,6 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     backgroundColor: 'white',
+    justifyContent: 'center',
   },
   text: {
     textAlign: 'center',
@@ -122,6 +126,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 2,
   },
+  addButton: {
+    width: Dimensions.get('window').width * 0.9,
+    height: 40,
+    backgroundColor:"#fff",
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 2,
+    borderRadius: 20,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  }
 });
 
 export default HomeScreen;

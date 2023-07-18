@@ -1,98 +1,114 @@
-import React, { useState, useRef } from 'react'
-import { View, Image, StyleSheet, Dimensions, TouchableOpacity, Button} from 'react-native'
-import { Canvas, Path} from '@shopify/react-native-skia'
-import { Gesture, GestureDetector, GestureHandlerRootView} from 'react-native-gesture-handler'
+import React, { useState, useRef } from 'react';
+import { View, Image, StyleSheet, Dimensions, TouchableOpacity, Button, Text, Platform } from 'react-native';
+import { Canvas, Path } from '@shopify/react-native-skia';
+import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import ViewShot from 'react-native-view-shot';
-// import RNFS from 'react-native-fs';
-import axios from 'axios';
+import { captureRef } from 'react-native-view-shot';
 
-const EditMaskScreen = ({navigation}) => {
-
-  const [data, setData] = useState([]);
-
+const EditMaskScreen = () => {
   const [color, setColor] = useState('#000000');
   const [stroke, setStroke] = useState(5);
-  const [paths, setPaths] = useState([[]]);
-  const viewShotRef = useRef(null);
+  const [paths, setPaths] = useState([]);
+  const [currentStrokeColor, setCurrentStrokeColor] = useState(color);
+  const [currentStrokeWidth, setCurrentStrokeWidth] = useState(stroke);
+  const canvasRef = useRef(null);
+  const viewshotRef = useRef();
+  const [viewShotURI, setViewShotURI] = useState(null);
 
-  const pan = Gesture.Pan()
-    .onStart((g) => {
-      const newPaths = [...paths];
-      newPaths.push([`M ${g.x} ${g.y}`]);
-      setPaths(newPaths);
-    })
-    .onUpdate((g) => {
-      const index = paths.length - 1;
-      const newPaths = [...paths];
-      newPaths[index].push(`L ${g.x} ${g.y}`);
-      setPaths(newPaths)
-    })
-    .minDistance(1)
+  const handlePanStart = (gestureState) => {
+    setPaths([...paths, {path: [`M ${gestureState.x} ${gestureState.y}`], stroke: currentStrokeWidth, color: currentStrokeColor}])
+  };
 
+  const handlePanUpdate = (gestureState) => {
+    const index = paths.length - 1;
+    const newPaths = [...paths];
+    newPaths[index].path.push(`L ${gestureState.x} ${gestureState.y}`);
+    setPaths(newPaths);
 
-  // const handleExport = async () => {
-  //   try {
-  //     const imageURI = await captureCanvas(viewShotRef.current);
-  //     const fileName = 'updated_mask.png';
-  //     const destinationPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
-  //     await RNFS.copyFile(imageURI, destinationPath);
-  //     console.log('Image exported successfully:', destinationPath);
-  //   } catch (error) {
-  //     console.error('Error exporting image:', error);
-  //   }
-  // };
+  };
 
+  const pan = Gesture.Pan().onStart(handlePanStart).onUpdate(handlePanUpdate).minDistance(1);
 
-  // mask, texture, joint에 대한 정보 받아오기
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const res = await axios.get('server address', {});
-  //       setData(res.data)
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getData();
-  // }, []);
+  const handleColorChange = (newColor) => {
+    setCurrentStrokeColor(newColor);
+  };
+
+  const handleWidthChange = (newWidth) => {
+    setCurrentStrokeWidth(newWidth);
+  };
+
+  const handleBack = () => {
+    if (paths.length > 0) {
+      setPaths(paths.slice(0, -1));
+    }
+  }
+
+  const handleReset = () => {
+    setPaths([]);
+  }
+
+  const onCapture = async () => {
+    try {
+      const uri = await captureRef(viewshotRef, {
+        format: 'png',
+        quality: 1,
+      });
+
+      console.log('Captured URI:', uri);
+      setViewShotURI(uri);
+
+    } catch (error) {
+      console.error('Capture failed:', error);
+    }
+  };
 
   return (
-
     <View style={styles.container}>
       <View style={styles.textureContainer}>
         <Image source={require('../assets/dummy_texture.png')} style={styles.texture} resizeMode='contain' />
       </View>
+      <GestureHandlerRootView style={{ opacity: 0.5,}}>
+        <ViewShot ref={viewshotRef} style={styles.maskContainer}>
+          <View style={styles.canvasContainer}>
+            <GestureDetector gesture={pan}>
+              <Canvas ref={canvasRef} style={styles.canvas}>
+                {paths.map((p, index) => (
+                  <Path key={index} path={p.path.join(' ')} strokeWidth={p.stroke} style="stroke" color={p.color} />
+                ))}
+              </Canvas>
+            </GestureDetector>
+          </View>
 
-      <GestureHandlerRootView style={styles.maskContainer} >
-        {/* <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1 }}> */}
           <View style={styles.imageContainer}>
             <Image source={require('../assets/dummy_mask.png')} style={styles.mask} resizeMode='contain' />
           </View>
-
-          <View style={styles.canvasContainer}>
-            <GestureDetector gesture={pan} >
-                <Canvas style={styles.canvas} >
-                  {paths.map((p, index) => (
-                    <Path
-                      key={index}
-                      path={p.join(' ')}
-                      strokeWidth={stroke}
-                      style="stroke"
-                      color={color} />
-                  ))}
-                </Canvas>
-              </GestureDetector>
-          </View>
-        {/* </ViewShot> */}
+        </ViewShot>
       </GestureHandlerRootView>
 
-      {/* <TouchableOpacity onPress={handleExport} style={styles.exportButton}>
+      <TouchableOpacity onPress={onCapture} style={styles.exportButton}>
         <Text style={styles.exportButtonText}>Export Image</Text>
-      </TouchableOpacity> */}
-      <Button title="Next" onPress={()=> navigation.navigate('Edit Joint')} />
-    </ View>
-  )
-}
+      </TouchableOpacity>
+
+      <View style={styles.buttonContainer}>
+        <Button title='back' onPress={handleBack}/>
+        <Button title='reset' onPress={handleReset}/>
+        <Button title='draw' onPress={() => handleColorChange('#fff')}/>
+        <Button title='erase' onPress={() => handleColorChange('#000')}/>
+        <Button title='5' onPress={() => handleWidthChange(5)}/>
+        <Button title='10' onPress={() => handleWidthChange(10)}/>
+        <Button title='15' onPress={() => handleWidthChange(15)}/>
+      </View>
+
+      {viewShotURI && (
+        <View style={{width: 200, height: 200}}>
+          <Text style={styles.previewText}>Captured Canvas:</Text>
+          <Image source={{ uri: viewShotURI }} style={{width: 200, height: 200}} />
+        </View>
+      )}
+
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -107,19 +123,20 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
   maskContainer: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+    marginTop: 60,
+  },
+  imageContainer: {
     position: 'absolute',
+    top: 0,
+    left: 0,
     width: Dimensions.get('window').width,
     height: undefined,
     aspectRatio: 1,
-    marginTop: 60,
-    opacity: 0.5,
-  },
-  imageContainer: {
-    flex: 1,
-    zIndex: 1,
+    zIndex: 1
   },
   canvasContainer: {
-    position: 'absolute',
     flex: 1,
     zIndex: 2,
   },
@@ -133,14 +150,15 @@ const styles = StyleSheet.create({
     width: undefined,
     height: undefined,
   },
-  canvas : {
+  canvas: {
     flex: 1,
-    position: 'absolute',
-    width: Dimensions.get('window').width,
+    width: undefined,
     height: undefined,
-    aspectRatio: 1,
   },
-   exportButton: {
+  exportContainer: {
+    position: 'absolute',
+  },
+  exportButton: {
     position: 'absolute',
     bottom: 20,
     right: 20,
@@ -152,166 +170,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-})
+  buttonContainer: {
+    flexDirection: 'row',
+  }
+});
 
 export default EditMaskScreen;
-
-// import React, { useState, useRef } from 'react';
-// import { View, Image, StyleSheet, Dimensions, TouchableOpacity, Text } from 'react-native';
-// import { Canvas, Path } from '@shopify/react-native-skia';
-// import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
-// import ViewShot from 'react-native-view-shot';
-// import RNFS from 'react-native-fs';
-
-// const EditMaskScreen = () => {
-//   const [color, setColor] = useState('#000000');
-//   const [stroke, setStroke] = useState(5);
-//   const [paths, setPaths] = useState([[]]);
-//   const canvasRef = useRef(null);
-
-//   const handlePanStart = (gestureState) => {
-//     const newPaths = [...paths];
-//     newPaths.push([`M ${gestureState.x} ${gestureState.y}`]);
-//     setPaths(newPaths);
-//   };
-
-//   const handlePanUpdate = (gestureState) => {
-//     const index = paths.length - 1;
-//     const newPaths = [...paths];
-//     newPaths[index].push(`L ${gestureState.x} ${gestureState.y}`);
-//     setPaths(newPaths);
-//   };
-
-//   const pan = Gesture.Pan().onStart(handlePanStart).onUpdate(handlePanUpdate).minDistance(1);
-
-//   const handleExport = async () => {
-//     try {
-//       const imageURI = await captureCanvas(exportContainerRef.current);
-//       const fileName = 'updated_mask.png';
-//       const destinationPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
-//       await RNFS.copyFile(imageURI, destinationPath);
-//       console.log('Image exported successfully:', destinationPath);
-//     } catch (error) {
-//       console.error('Error exporting image:', error);
-//     }
-//   };
-
-//   const captureCanvas = async (ref) => {
-//     return new Promise((resolve, reject) => {
-//       if (!ref) {
-//         reject('Invalid ref provided');
-//         return;
-//       }
-
-//       ref.capture().then((uri) => {
-//         resolve(uri);
-//       }).catch((error) => {
-//         reject(error);
-//       });
-//     });
-//   };
-
-//   const exportContainerRef = useRef(null);
-
-//   return (
-//     <View style={styles.container}>
-//       <View style={styles.textureContainer}>
-//         <Image source={require('../assets/dummy_texture.png')} style={styles.texture} resizeMode='contain' />
-//       </View>
-//       <GestureHandlerRootView style={styles.maskContainer}>
-//         <View style={styles.imageContainer}>
-//           <Image source={require('../assets/dummy_mask.png')} style={styles.mask} resizeMode='contain' />
-//         </View>
-//         <View style={styles.canvasContainer}>
-//           <GestureDetector gesture={pan}>
-//             <Canvas ref={canvasRef} style={styles.canvas}>
-//               {paths.map((p, index) => (
-//                 <Path key={index} path={p.join(' ')} strokeWidth={stroke} style="stroke" color={color} />
-//               ))}
-//             </Canvas>
-//           </GestureDetector>
-//         </View>
-//       </GestureHandlerRootView>
-
-//       {/* The export container */}
-//       <ViewShot ref={exportContainerRef} options={{ format: 'png', quality: 1 }} style={styles.exportContainer}>
-//         <View style={styles.imageContainer}>
-//           <Image source={require('../assets/dummy_mask.png')} style={styles.mask} resizeMode='contain' />
-//         </View>
-//         <View style={styles.canvasContainer}>
-//           <Canvas style={styles.canvas}>
-//             {paths.map((p, index) => (
-//               <Path key={index} path={p.join(' ')} strokeWidth={stroke} style="stroke" color={color} />
-//             ))}
-//           </Canvas>
-//         </View>
-//       </ViewShot>
-
-//       <TouchableOpacity onPress={handleExport} style={styles.exportButton}>
-//         <Text style={styles.exportButtonText}>Export Image</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: 'center',
-//   },
-//   textureContainer: {
-//     position: 'absolute',
-//     width: Dimensions.get('window').width,
-//     height: undefined,
-//     aspectRatio: 1,
-//     marginTop: 60,
-//   },
-//   maskContainer: {
-//     position: 'absolute',
-//     width: Dimensions.get('window').width,
-//     height: undefined,
-//     aspectRatio: 1,
-//     marginTop: 60,
-//   },
-//   imageContainer: {
-//     flex: 1,
-//     zIndex: 1,
-//   },
-//   canvasContainer: {
-//     flex: 1,
-//     zIndex: 2,
-//   },
-//   texture: {
-//     flex: 1,
-//     width: undefined,
-//     height: undefined,
-//   },
-//   mask: {
-//     flex: 1,
-//     width: undefined,
-//     height: undefined,
-//   },
-//   canvas: {
-//     flex: 1,
-//     width: undefined,
-//     height: undefined,
-//   },
-//   exportContainer: {
-//     position: 'absolute',
-//     top: -10000,
-//   },
-//   exportButton: {
-//     position: 'absolute',
-//     bottom: 20,
-//     right: 20,
-//     padding: 10,
-//     backgroundColor: 'blue',
-//     borderRadius: 8,
-//   },
-//   exportButtonText: {
-//     color: 'white',
-//     fontWeight: 'bold',
-//   },
-// });
-
-// export default EditMaskScreen;
