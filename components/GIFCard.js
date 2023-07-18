@@ -1,16 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 
 const GIFCard = ({ item }) => {
 
-
-  const handleSelect = () => {
-
-  }
+  const [motion, setMotion] = useState();
+  const [selected, setSelect] = useState("");
 
   return (
     <View style={styles.card}>
-      <Image source={item.motion} style={{width: 100, height: 100}} onPress={handleSelect}/>
+      <Image source={item.motion} style={{width: 100, height: 100}}/>
     </View>
   );
 };

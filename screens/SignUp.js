@@ -1,48 +1,41 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
 
 const SignUp = ({navigation}) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async() => {
-    if (name === '' || email === '' || password === '') {
-      alert("All fields are required");
-      return
-    }
-    const resp = await axios.post("address", {name, email, password});
-    if (resp.data.error)
-      alert(resp.data.error)
-    else {
-      // await AsyncStorage.setItem("auth-rn", JSON.stringify(data))
-      alert("Sign up successful");
-    }
-  }
+  // const handleSubmit = async() => {
+  //   if (username === '' || password === '') {
+  //     alert("All fields are required");
+  //     return
+  //   }
+  //   const resp = await axios.post("address", {username, password});
+  //   if (resp.data.error)
+  //     alert(resp.data.error)
+  //   else {
+  //     // 인증 코드
+  //     alert("Sign up successful");
+  //   }
+  // }
 
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image source={require('./assets/temp_logo.png')} style={styles.imageStyles}/>
-        </View>
-        <Text style = {styles.signupText}></Text>
+    <View style={styles.container}>
+      <View style={{marginVertical: 100}}>
+        <Text style = {styles.signupText}>Sign Up</Text>
         <View style = {{marginHorizontal: 24}}>
-          <Text style={{fontSize: 16, color: '#8e93a1'}}>NAME</Text>
-          <TextInput style={styles.signupInput} value={name} onChangeText={text => setName(text)} autoCapitalize="words" autoComplete="off" multiline/>
-        </View>
-        <View style = {{marginHorizontal: 24}}>
-          <Text style={{fontSize: 16, color: '#8e93a1'}}>EMAIL</Text>
-          <TextInput style={styles.signupInput} value={email} onChangeText={text => setEmail(text)} autoComplete="email" keyboardType="email-address"/>
+          <Text style={{fontSize: 16, color: '#8e93a1'}}>USERNAME</Text>
+          <TextInput style={styles.signupInput} value={username} onChangeText={text => setUserName(text)} autoComplete="off"/>
         </View>
         <View style = {{marginHorizontal: 24}}>
           <Text style={{fontSize: 16, color: '#8e93a1'}}>PASSWORD</Text>
-          <TextInput style={styles.signupInput} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} autoComplete="new-password"/>N
+          <TextInput style={styles.signupInput} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} autoComplete="new-password"/>
         </View>
-        <TouchableOpacity onPress={handleSubmit} style={styles.buttonStyle}>
+        <TouchableOpacity
+          // onPress={handleSubmit}
+          style={styles.buttonStyle}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
         <Text style={{fontSize: 12, textAlign: 'center'}}>Already Joined? {" "}
@@ -51,9 +44,8 @@ const SignUp = ({navigation}) => {
               Sign In
           </Text>
         </Text>
-
       </View>
-    </KeyboardAwareScrollView>
+    </ View>
   )
 }
 
