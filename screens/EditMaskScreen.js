@@ -89,7 +89,7 @@ const EditMaskScreen = ({navigation}) => {
       {/* <TouchableOpacity onPress={handleExport} style={styles.exportButton}>
         <Text style={styles.exportButtonText}>Export Image</Text>
       </TouchableOpacity> */}
-      <Button title="Next" onPress={navigation.navigate('Edit Joint')} />
+      <Button title="Next" onPress={()=> navigation.navigate('Edit Joint')} />
     </ View>
   )
 }
