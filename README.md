@@ -41,6 +41,8 @@
 
 
 ### 기능 1: 캐릭터 자동 인식
+- 갤러리 버튼 -> 핸드폰 이미지 저장공간 접근 -> 그림 선택
+- 업로드 버튼 -> DB에 새로운 캐릭터에 대한 파일 생성
 
 <img src="/screenshots/UploadImage_1.png" width="30%" alt="Upload Image 1"></img>
 <img src="/screenshots/UploadImage_2.png" width="30%"  alt="Upload Image 2"></img>
@@ -48,6 +50,9 @@
 <br>
 
 ### 기능 2: 캐릭터 구성 수정
+
+- 각 캐릭터에 대한 파일에는 TouchServe를 통해 생성된 mask, joint data, 등을 보유
+- 모델이 완벽히 배경과 캐릭터를 분리하지 못하거나, joint를 정확히 mapping하지 못할 경우를 위해 수정 기능 구현
 
 <img src="/screenshots/EditMask_1.png" width="30%" alt="Edit Mask 1"></img>
 <img src="/screenshots/EditMask_2.png" width="30%" alt="Edit Mask 2"></img>
@@ -57,6 +62,13 @@
 
 ### 기능 3: 다양한 움직임 적용 
 
+- 메인화면에는 유저가 보유하고 있는 캐릭터의 갤러리와 모션을 띄어줌
+  - 첫번째 캐릭터는 앱의 마스코트가 디폴트
+- 모션을 선택 시 선택한 캐릭터의 다양한 에니메이션을 감상 할 수 있음 
+
 <img src="/screenshots/Home.png" width="30%" alt="Home"></img>
 <img src="/screenshots/NewCharacter.png" width="30%" alt="New Character"></img>
 <img src="/screenshots/Motion.png" width="30%" alt="Motion"></img>
+
+### 기능 4: 나만의 움직임 적용
+시간 관계상 이 기능까지 구현하지 못하였지만, 동영상 파일을 업로드하면 bvh 파일로 변환하여 motion capture data로 나만의 무브먼트를 추가해 캐릭터에 적용하려고 하였다
