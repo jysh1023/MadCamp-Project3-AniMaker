@@ -39,6 +39,9 @@
 #### 앱 로고: AniMaker
 <img src="/assets/AniMaker_logo.png" width="30%" alt="Logo"></img>
 
+### 로그인 / 회원가입
+<img src="/screenshots/SignIn.png" width="30%" alt="Upload Image 1"></img>
+<img src="/screenshots/SignUp.png" width="30%"  alt="Upload Image 2"></img>
 
 ### 기능 1: 캐릭터 자동 인식
 - 갤러리 버튼 -> 핸드폰 이미지 저장공간 접근 -> 그림 선택
