@@ -27,11 +27,8 @@ Download APK File: [COGAWE][apklink]
 
 💻 개발 환경
 -------------
-- OS : Android, IOS
-- Langauge : ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white),
-![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
-- IDE : Android Studio
-- Target Device: Galaxy S7
+- Front End
+- <img src="https://img.shields.io/badge/React-Native-#61DAFB?style=for-the-badge&logo=React&logoColor=white">
 
 <br>
 
