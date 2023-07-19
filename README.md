@@ -46,6 +46,7 @@
 ### 기능 1: 캐릭터 자동 인식
 - 갤러리 버튼 -> 핸드폰 이미지 저장공간 접근 -> 그림 선택
 - 업로드 버튼 -> DB에 새로운 캐릭터에 대한 파일 생성
+- 각 캐릭터에 대한 파일에는 TouchServe를 통해 생성된 mask, joint data, 등을 보유
 
 <img src="/screenshots/UploadImage_1.png" width="30%" alt="Upload Image 1"></img>
 <img src="/screenshots/UploadImage_2.png" width="30%"  alt="Upload Image 2"></img>
@@ -53,9 +54,7 @@
 <br>
 
 ### 기능 2: 캐릭터 구성 수정
-
-- 각 캐릭터에 대한 파일에는 TouchServe를 통해 생성된 mask, joint data, 등을 보유
-- 모델이 완벽히 배경과 캐릭터를 분리하지 못하거나, joint를 정확히 mapping하지 못할 경우를 위해 수정 기능 구현
+- 모델이 완벽히 배경과 캐릭터를 분리하지 못하거나, joint를 정확히 mapping하지 못할 경우를 대비해 수정 기능 구현
 
 <img src="/screenshots/EditMask_1.png" width="30%" alt="Edit Mask 1"></img>
 <img src="/screenshots/EditMask_2.png" width="30%" alt="Edit Mask 2"></img>
@@ -65,7 +64,7 @@
 
 ### 기능 3: 다양한 움직임 적용 
 
-- 메인화면에는 유저가 보유하고 있는 캐릭터의 갤러리와 모션을 띄어줌
+- 메인화면에는 유저가 보유하고 있는 캐릭터의 갤러리와 Animated Drawings을 통해 생성된 모션을 띄어줌
   - 첫번째 캐릭터는 앱의 마스코트가 디폴트
 - 모션을 선택 시 선택한 캐릭터의 다양한 에니메이션을 감상 할 수 있음 
 
