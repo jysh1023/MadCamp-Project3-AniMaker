@@ -28,7 +28,7 @@ Download APK File: [COGAWE][apklink]
 💻 개발 환경
 -------------
 - Front End
-- <img src="https://img.shields.io/badge/React-Native-#61DAFB?style=for-the-badge&logo=React&logoColor=white">
+- <img src="https://img.shields.io/badge/ReactNative-#61DAFB?style=for-the-badge&logo=React&logoColor=white">
 
 <br>
 
