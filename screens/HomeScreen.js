@@ -12,7 +12,6 @@ import {
 import React , {useState, useEffect} from 'react'
 import CustomImageCarousal from '../components/CustomImageCarousal'
 import motionPreviewData from '../context/MotionPreviewData'
-import { center } from '@shopify/react-native-skia'
 
 const imageData = [
   {
@@ -96,9 +95,12 @@ const HomeScreen = ({navigation}) => {
           extraData={selected}
         />
       </View>
-      <TouchableOpacity style={styles.addButton} onPress={()=> navigation.navigate('Add Drawing')}>
-        <Text style={styles.buttonText}>Add Drawing</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.addButton} onPress={()=> navigation.navigate('Add Drawing')}>
+          <Text style={styles.buttonText}>그림 추가하기</Text>
+        </TouchableOpacity>
+      </View>
+
     </SafeAreaView>
   );
 }
@@ -107,7 +109,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    backgroundColor: 'white',
     justifyContent: 'center',
   },
   text: {
@@ -126,6 +127,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 2,
   },
+  buttonContainer: {
+    flex: 1,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   addButton: {
     width: Dimensions.get('window').width * 0.9,
     height: 40,
@@ -138,7 +145,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: 'bold'
+    fontFamily: 'SCDream5'
   }
 });
 

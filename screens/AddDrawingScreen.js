@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Dimensions, StyleSheet } from 'react-native';
+import { Button, Image, View, Dimensions, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 
@@ -22,7 +22,7 @@ export default function AddDrawingScreen( {navigation} ) {
   };
 
   const takePicture = async() => {
-    let result = await ImagePicker.launchCameraAsync({
+    let result = await ImagePicker.launchCamera({
       allowsEditing:true,
     });
 
@@ -34,7 +34,7 @@ export default function AddDrawingScreen( {navigation} ) {
       alert('No image selected!')
     }
   }
-  
+
   const handleSubmit = async() => {
     try {
       if (!image) {
@@ -42,17 +42,17 @@ export default function AddDrawingScreen( {navigation} ) {
         return;
       }
       console.log('서버에 이미지 요청을 보냅니다...');
-      
+
       const formData = new FormData();
       formData.append('file', {
         uri: image,
         name: 'image.jpg',
-        type: 'image/png', 
+        type: 'image/png',
       });
-  
+
       await axios.post("http://172.10.9.14:80/upload_image/", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', 
+          'Content-Type': 'multipart/form-data',
         }
       })
       .then(res => {
@@ -61,21 +61,58 @@ export default function AddDrawingScreen( {navigation} ) {
         navigation.navigate('Edit Mask');
       })
       .catch(err => console.error(err));
-      
+
     } catch (error) {
       alert('Error uploading image: ', error);
     }
   }
+
   return (
     <View style={styles.container}>
-    <View style={styles.imageContainer}>
-      {image && <Image source={{ uri: image }} style={styles.image} resizeMode="contain" />}
-    </View>
-    <View style={styles.buttonContainer}>
-      <Button title="Gallery" onPress={pickImage} />
-      <Button title="Camera" onPress={takePicture} />
-    </View>
-    <Button title="Upload" onPress={handleSubmit} />
+
+      <View style={styles.textContainer}>
+        <Text style={styles.step}>STEP 1</Text>
+        <Text style={styles.title}>UPLOAD A DRAWING</Text>
+        <Text style={styles.content}>팔과 다리가 겹치지 않는 하나의 캐릭터를 업로드합니다.</Text>
+        <View style={{flexDirection: 'row', alignContent: 'center', marginTop: 10}}>
+          <Image source={require('../assets/icons/checklist.png')} style={{width: 20, height: 20, marginRight: 10}}/>
+          <Text style={styles.checklistText}>가급적으로 깨끗한 흰 종이에 그린 그림을 촬영해 주세요.</Text>
+        </View>
+        <View style={{flexDirection: 'row', alignContent: 'center', marginTop: 10}}>
+          <Image source={require('../assets/icons/checklist.png')} style={{width: 20, height: 20, marginRight: 10}}/>
+          <Text style={styles.checklistText}>그림자를 최소화하기 위해 카메라를 멀리 두고 확대하여 촬영해 주세요.</Text>
+        </View>
+      </View>
+
+      <View style={styles.imageContainer}>
+        {image ? (
+          <Image source={{ uri: image }} style={styles.image} resizeMode="contain" />
+        ): (
+            <Image source={require('../assets/sample_drawing.png')} style={styles.image} resizeMode="contain" />
+        )}
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={pickImage}>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <Image source={require('../assets/icons/gallery.png')} style={styles.icon}/>
+            <Text style={styles.buttonText}>갤러리</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={takePicture}>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <Image source={require('../assets/icons/camera.png')} style={styles.icon}/>
+            <Text style={styles.buttonText}>카메라</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
+      <View style={{width: Dimensions.get('window').width, height: 60,alignItems:'flex-end'}}>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>다음</Text>
+          </TouchableOpacity>
+      </View>
+
   </View>
   );
 }
@@ -84,8 +121,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    paddingVertical: 20,
   },
   imageContainer: {
+    flex: 1,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').width, // Display the image with its original width and height
     marginTop: 60,
@@ -96,7 +135,58 @@ const styles = StyleSheet.create({
     height: undefined,
   },
   buttonContainer: {
-    flex: 1 / 3,
+    flex: 0.3,
+    height: 100,
+    justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row'
   },
+  button: {
+    width: Dimensions.get('window').width * 0.4,
+    height: 40,
+    backgroundColor:"#fff",
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#333',
+    borderWidth: 2,
+    borderRadius: 20,
+    margin: 15
+  },
+  buttonText: {
+    fontSize: 18,
+    fontFamily: 'SCDream5',
+    color: '#333',
+    height: 25
+  },
+  textContainer: {
+    flex: 0.3,
+    width: Dimensions.get('window').width * 0.92,
+  },
+  step: {
+    fontSize: 24,
+    fontFamily: 'SCDream8',
+    color: '#333',
+  },
+  title: {
+    fontSize: 36,
+    fontFamily: 'SCDream8',
+    color: '#333',
+    marginBottom: 5,
+  },
+  content: {
+    fontSize: 17,
+    fontFamily: 'SCDream4',
+    color: '#333'
+  },
+  icon : {
+    width: 25,
+    height: 25,
+    marginRight: 15
+  },
+  checklistText: {
+    flex: 1,
+    fontSize: 15,
+    fontFamily:'SCDream4',
+    color: '#333'
+  }
 });
