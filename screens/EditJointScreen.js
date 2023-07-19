@@ -1,14 +1,29 @@
-import { View, Text , StyleSheet, Dimensions, TouchableOpacity, Image} from 'react-native'
+import { View, Text , StyleSheet, Dimensions, TouchableOpacity, Image, Button} from 'react-native'
 import React from 'react'
+import axios from 'axios';
 
-const EditJointScreen = ({navigation}) => {
 
-  const handleEdit = () => {
 
-  }
+const EditJointScreen = ({route, navigation}) => {
+  const random_var = route.params
+  console.log(random_var)
+  const handleEdit = async () => {
+    let formData = new FormData();
+    formData.append("random_var", random_var);
+    
+    const response = await axios.post('http://172.10.9.50:80/joint_edit/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    
+    if (response.data.status === "Joint editing completed") {
 
-  const handleSubmit = () => {
+      console.log("Joint editing completed successfully.");
+    } else {
 
+      console.log("Joint editing failed.");
+    }
   }
 
   return (
@@ -42,7 +57,7 @@ const EditJointScreen = ({navigation}) => {
         <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
           <Text style={styles.buttonText}>이전</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("HOME")}>
           <Text style={styles.buttonText}>완료</Text>
         </TouchableOpacity>
       </View>
