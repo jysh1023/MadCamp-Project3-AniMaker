@@ -44,15 +44,15 @@ const App = () =>  {
     <GestureHandlerRootView style={{flex: 1}}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="SignIn"
+          initialRouteName="Add Drawing"
           screenOptions={{ headerTitleStyle:{ fontFamily: 'SCDream6', fontSize:20}}
         }>
-          <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: false}}/>
+          {/* <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: false}}/>
           <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
-          <Stack.Screen name="Home" component={HomeScreen} options={{title:'AniMaker'}}/>
-          <Stack.Screen name="Add Drawing" component={AddDrawingScreen} options={{title:'ADD DRAWING'}}/>
-          <Stack.Screen name="Edit Mask" component={EditMaskScreen} options={{title:'ADD DRAWING'}}/>
-          <Stack.Screen name="Edit Joint" component={EditJointScreen} options={{title:'ADD DRAWING'}}/>
+          <Stack.Screen name="Home" component={HomeScreen} options={{title:'AniMaker'}}/> */}
+          {/* <Stack.Screen name="Add Drawing" component={AddDrawingScreen} options={{title:'ADD DRAWING'}}/> */}
+          <Stack.Screen name="Edit Mask" component={EditMaskScreen} options={{title:'이미지 마스크 수정하기'}}/>
+          <Stack.Screen name="Edit Joint" component={EditJointScreen} options={{title:'관절 조정하기'}}/>
 
         </Stack.Navigator>
       </NavigationContainer>

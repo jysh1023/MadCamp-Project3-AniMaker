@@ -29,7 +29,10 @@ const SignUp = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={{marginVertical: 100}}>
-        <Text style = {styles.signupText}>Sign Up</Text>
+        <View style={styles.imageContainer}>
+            <Image source={require('../assets/AniMaker_logo.png')} style={styles.imageStyles}/>
+        </View>
+        {/* <Text style = {styles.signupText}>Sign Up</Text> */}
         <View style = {{marginHorizontal: 24}}>
           <Text style={{fontSize: 16, color: '#8e93a1', fontFamily: 'SCDream3'}}>USERNAME</Text>
           <TextInput style={styles.signupInput} value={username} onChangeText={text => setUserName(text)} autoComplete="off"/>
@@ -57,7 +60,8 @@ const SignUp = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: 'white'
   },
   signupText: {
     fontSize : 30,
@@ -91,8 +95,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageStyles: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
     marginVertical: 20
   }
 })

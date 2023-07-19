@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Button, Image, View, Dimensions, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default function AddDrawingScreen( {navigation} ) {
   const [image, setImage] = useState(null);
+  const [spinner, setSpinner] = useState(false);
 
   const pickImage = async () => {
 
@@ -42,6 +44,7 @@ export default function AddDrawingScreen( {navigation} ) {
         return;
       }
       console.log('서버에 이미지 요청을 보냅니다...');
+      setSpinner(true);
 
       const formData = new FormData();
       formData.append('file', {
@@ -57,6 +60,7 @@ export default function AddDrawingScreen( {navigation} ) {
       })
       .then(res => {
         console.log(res.data);
+        setSpinner(false);
         alert('Image upload successful!');
         navigation.navigate('Edit Mask');
       })
@@ -69,6 +73,11 @@ export default function AddDrawingScreen( {navigation} ) {
 
   return (
     <View style={styles.container}>
+      <Spinner
+          visible={spinner}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
 
       <View style={styles.textContainer}>
         <Text style={styles.step}>STEP 1</Text>
@@ -107,9 +116,9 @@ export default function AddDrawingScreen( {navigation} ) {
         </TouchableOpacity>
       </View>
 
-      <View style={{width: Dimensions.get('window').width, height: 60,alignItems:'flex-end'}}>
+      <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.buttonText}>다음</Text>
+              <Text style={styles.buttonText}>업로드</Text>
           </TouchableOpacity>
       </View>
 
@@ -123,10 +132,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 20,
   },
+  spinnerTextStyle: {
+    color: '#FFF',
+    fontFamily: 'SCDream4'
+  },
   imageContainer: {
     flex: 1,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').width, // Display the image with its original width and height
+    height: Dimensions.get('window').width,
     marginTop: 60,
   },
   image: {
@@ -135,17 +148,15 @@ const styles = StyleSheet.create({
     height: undefined,
   },
   buttonContainer: {
-    flex: 0.3,
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row'
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingHorizontal: 20,
   },
   button: {
-    width: Dimensions.get('window').width * 0.4,
-    height: 40,
+    flex: 1,
     backgroundColor:"#fff",
-    justifyContent: 'center',
+    paddingVertical: 6,
     alignItems: 'center',
     borderColor: '#333',
     borderWidth: 2,

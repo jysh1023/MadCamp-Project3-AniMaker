@@ -64,9 +64,25 @@ const EditMaskScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+
+      {/* <View style={styles.textContainer}>
+        <Text style={styles.step}>STEP 2</Text>
+        <Text style={styles.title}>SEPARATING CHARACTER</Text>
+        <Text style={styles.content}>팔과 다리가 겹치지 않는 하나의 캐릭터를 업로드합니다.</Text>
+        <View style={{flexDirection: 'row', alignContent: 'center', marginTop: 10}}>
+          <Image source={require('../assets/icons/checklist.png')} style={{width: 20, height: 20, marginRight: 10}}/>
+          <Text style={styles.checklistText}>가급적으로 깨끗한 흰 종이에 그린 그림을 촬영해 주세요.</Text>
+        </View>
+        <View style={{flexDirection: 'row', alignContent: 'center', marginTop: 10}}>
+          <Image source={require('../assets/icons/checklist.png')} style={{width: 20, height: 20, marginRight: 10}}/>
+          <Text style={styles.checklistText}>그림자를 최소화하기 위해 카메라를 멀리 두고 확대하여 촬영해 주세요.</Text>
+        </View>
+      </View> */}
+
       <View style={styles.textureContainer}>
         <Image source={require('../assets/dummy_texture.png')} style={styles.texture} resizeMode='contain' />
       </View>
+
       <GestureHandlerRootView style={{ opacity: 0.5,}}>
         <ViewShot ref={viewshotRef} style={styles.maskContainer}>
           <View style={styles.canvasContainer}>
@@ -85,11 +101,14 @@ const EditMaskScreen = ({navigation}) => {
         </ViewShot>
       </GestureHandlerRootView>
 
-      <TouchableOpacity onPress={onCapture} style={styles.exportButton}>
-        <Text style={styles.exportButtonText}>Export Image</Text>
-      </TouchableOpacity>
-
       <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={onCapture} style={styles.button}>
+          <Text style={styles.buttonText}>Update</Text>
+        </TouchableOpacity>
+      </View>
+
+
+      <View style={styles.toolContainer}>
         <Button title='back' onPress={handleBack}/>
         <Button title='reset' onPress={handleReset}/>
         <Button title='draw' onPress={() => handleColorChange('#fff')}/>
@@ -101,12 +120,19 @@ const EditMaskScreen = ({navigation}) => {
 
       {viewShotURI && (
         <View style={{width: 200, height: 200}}>
-          <Text style={styles.previewText}>Captured Canvas:</Text>
+          <Text style={styles.previewText}>Updated Mask:</Text>
           <Image source={{ uri: viewShotURI }} style={{width: 200, height: 200}} />
         </View>
       )}
 
-      <Button title='Next' onPress={() => navigation.navigate('Edit Joint')}/>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+          <Text style={styles.buttonText}>이전</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Edit Joint')}>
+          <Text style={styles.buttonText}>다음</Text>
+        </TouchableOpacity>
+      </View>
 
     </View>
   );
@@ -116,6 +142,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    paddingVertical: 20,
   },
   textureContainer: {
     position: 'absolute',
@@ -162,7 +189,7 @@ const styles = StyleSheet.create({
   },
   exportButton: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 100,
     right: 20,
     padding: 10,
     backgroundColor: 'blue',
@@ -172,8 +199,58 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  buttonContainer: {
+  toolContainer: {
     flexDirection: 'row',
+  },
+  textContainer: {
+    flex: 0.3,
+    width: Dimensions.get('window').width * 0.92,
+  },
+  step: {
+    fontSize: 24,
+    fontFamily: 'SCDream8',
+    color: '#333',
+  },
+  title: {
+    fontSize: 36,
+    fontFamily: 'SCDream8',
+    color: '#333',
+    marginBottom: 5,
+  },
+  content: {
+    fontSize: 17,
+    fontFamily: 'SCDream4',
+    color: '#333'
+  },
+  checklistText: {
+    flex: 1,
+    fontSize: 15,
+    fontFamily:'SCDream4',
+    color: '#333'
+  },
+  buttonContainer: {
+    position: 'absolute',
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingHorizontal: 20,
+    bottom: 20,
+  },
+  button: {
+    flex: 1,
+    backgroundColor:"#fff",
+    paddingVertical: 6,
+    alignItems: 'center',
+    borderColor: '#333',
+    borderWidth: 2,
+    borderRadius: 20,
+    margin: 15
+  },
+  buttonText: {
+    fontSize: 18,
+    fontFamily: 'SCDream5',
+    color: '#333',
+    height: 25
   }
 });
 
