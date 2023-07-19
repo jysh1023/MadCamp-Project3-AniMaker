@@ -1,33 +1,35 @@
-# Mad Camp 1주차 과제 🔥
+# Mad Camp 3주차 과제 🔥
 
 Download APK File: [COGAWE][apklink]
 
 [apklink]: app/release/app-release.apk
 
-### 공통과제 I (6/29 ~ 7/5) - 탭 구조를 활용한 안드로이드 앱 제작
+### 자율 과제 Ⅲ (7/13 ~ 7/19) - AniMaker
 #### 📌 목적
-- 서로 함께 공통의 과제를 함으로써, 개발에 빠르게 익숙해지기
+- 딥러닝 모델을 서비하고, User Interactive한 App 개발하기
 
 #### 🌟 결과물
-- 세 개의 탭이 존재하는 안드로이드 앱
-  - TAB 1: Contact
-    - 나의 연락처 구축. 휴대폰의 연락처 데이터를 활용하거나, JSON 형식을 이용해서 임의의 연락처 데이터를 구축
-  - TAB 2: Gallery
-    -  나만의 이미지 갤러리 구축. 이미지는 대략 20개 정도.
-  - TAB 3: Weather
-    - 자유 주제
+- 나만의 캐릭터를 그린 후 촬영하거나 업로드하면, 자동으로 움직임을 주는 App
+  - 기능 1: 캐릭터 자동 인식
+    - 내 캐릭터를 촬영하면, 자동 segmentation 및 joint detection
+  - 기능 2: 캐릭터 구성 수정
+    - 유저가 직접 segmentation mask와 joint 수정할 수 있는 UI 구현
+  - 기능 3: 다양한 움직임 적용 
+    - 여러가지 움직임을 캐릭터에 각각 적용 가능
+  - 기능 4: 나만의 움직임 적용
+    - 모션 캡쳐를 통해 나만의 움직임을 캐릭터에 적용 가능 
 
 👥 팀원
 -------------
 - 양성현 (카이스트 전산학부)
-- 김준서 (한양대학교 컴퓨터소프트웨어학부)
+- 전지민 (지스트 전기전자컴퓨터공학부)
 
 
 💻 개발 환경
 -------------
-- OS : Android
-- SDK : 33
-- Langauge : Kotlin
+- OS : Android, IOS
+- Langauge : ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white),
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 - IDE : Android Studio
 - Target Device: Galaxy S7
 
