@@ -11,7 +11,7 @@ const SignUp = ({navigation}) => {
       alert("모든 필드를 입력해주세요.");
       return;
     }
-    
+
     try {
       const resp = await axios.post("http://172.10.9.14:80/signup/", {user_name: username, password: password});
       if (resp.data.status === "User created") {
@@ -31,22 +31,22 @@ const SignUp = ({navigation}) => {
       <View style={{marginVertical: 100}}>
         <Text style = {styles.signupText}>Sign Up</Text>
         <View style = {{marginHorizontal: 24}}>
-          <Text style={{fontSize: 16, color: '#8e93a1'}}>USERNAME</Text>
+          <Text style={{fontSize: 16, color: '#8e93a1', fontFamily: 'SCDream3'}}>USERNAME</Text>
           <TextInput style={styles.signupInput} value={username} onChangeText={text => setUserName(text)} autoComplete="off"/>
         </View>
         <View style = {{marginHorizontal: 24}}>
-          <Text style={{fontSize: 16, color: '#8e93a1'}}>PASSWORD</Text>
+          <Text style={{fontSize: 16, color: '#8e93a1', fontFamily: 'SCDream3'}}>PASSWORD</Text>
           <TextInput style={styles.signupInput} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} autoComplete="new-password"/>
         </View>
         <TouchableOpacity
           onPress={handleSubmit}
           style={styles.buttonStyle}>
-          <Text style={styles.buttonText}>Submit</Text>
+          <Text style={styles.buttonText}>회원가입</Text>
         </TouchableOpacity>
-        <Text style={{fontSize: 12, textAlign: 'center'}}>Already Joined? {" "}
+        <Text style={{fontSize: 12, textAlign: 'center'}}>이미 회원이신가요? {" "}
           <Text style={{color: 'darkred', fontWeight: 'bold'}}
             onPress={() => navigation.navigate("SignIn")}>
-              Sign In
+              로그인
           </Text>
         </Text>
       </View>
@@ -61,7 +61,9 @@ const styles = StyleSheet.create({
   },
   signupText: {
     fontSize : 30,
-    textAlign: 'center'
+    fontFamily: 'SCDream6',
+    textAlign: 'center',
+    marginBottom: 50,
   },
   signupInput: {
     borderBottomWidth: 0.5,
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff',
     textTransform: 'uppercase',
-    fontWeight: 'bold'
+    fontFamily: 'SCDream6'
   },
   imageContainer: {
     justifyContent: 'center',

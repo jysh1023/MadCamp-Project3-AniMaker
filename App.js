@@ -44,11 +44,11 @@ const App = () =>  {
     <GestureHandlerRootView style={{flex: 1}}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName="SignIn"
           screenOptions={{ headerTitleStyle:{ fontFamily: 'SCDream6', fontSize:20}}
         }>
-          {/* <Stack.Screen name="SignIn" component={SignIn} />
-          <Stack.Screen name="SignUp" component={SignUp} /> */}
+          <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: false}}/>
+          <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
           <Stack.Screen name="Home" component={HomeScreen} options={{title:'AniMaker'}}/>
           <Stack.Screen name="Add Drawing" component={AddDrawingScreen} options={{title:'ADD DRAWING'}}/>
           <Stack.Screen name="Edit Mask" component={EditMaskScreen} options={{title:'ADD DRAWING'}}/>
