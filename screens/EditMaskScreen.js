@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Image, StyleSheet, Dimensions, TouchableOpacity, Button, Text, Platform } from 'react-native';
+import { View, Image, StyleSheet, Dimensions, TouchableOpacity, Button, Text, Touchable} from 'react-native';
 import { Canvas, Path } from '@shopify/react-native-skia';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import ViewShot from 'react-native-view-shot';
@@ -24,7 +24,6 @@ const EditMaskScreen = ({navigation}) => {
     const newPaths = [...paths];
     newPaths[index].path.push(`L ${gestureState.x} ${gestureState.y}`);
     setPaths(newPaths);
-
   };
 
   const pan = Gesture.Pan().onStart(handlePanStart).onUpdate(handlePanUpdate).minDistance(1);
@@ -65,65 +64,93 @@ const EditMaskScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
 
-      {/* <View style={styles.textContainer}>
+      <View style={styles.textContainer}>
         <Text style={styles.step}>STEP 2</Text>
         <Text style={styles.title}>SEPARATING CHARACTER</Text>
-        <Text style={styles.content}>팔과 다리가 겹치지 않는 하나의 캐릭터를 업로드합니다.</Text>
+        <Text style={styles.content}>캐릭터와 배경을 분리하여 밝은 부분으로 캐릭터를 표시하였습니다.</Text>
         <View style={{flexDirection: 'row', alignContent: 'center', marginTop: 10}}>
           <Image source={require('../assets/icons/checklist.png')} style={{width: 20, height: 20, marginRight: 10}}/>
-          <Text style={styles.checklistText}>가급적으로 깨끗한 흰 종이에 그린 그림을 촬영해 주세요.</Text>
+          <Text style={styles.checklistText}>캐릭터에 잘린 부분이 있다면 도구로 수정하세요.</Text>
         </View>
         <View style={{flexDirection: 'row', alignContent: 'center', marginTop: 10}}>
           <Image source={require('../assets/icons/checklist.png')} style={{width: 20, height: 20, marginRight: 10}}/>
-          <Text style={styles.checklistText}>그림자를 최소화하기 위해 카메라를 멀리 두고 확대하여 촬영해 주세요.</Text>
+          <Text style={styles.checklistText}>다리나 팔이 붙어 있다면 지우개로 분리시켜 주세요.</Text>
         </View>
-      </View> */}
-
-      <View style={styles.textureContainer}>
-        <Image source={require('../assets/dummy_texture.png')} style={styles.texture} resizeMode='contain' />
+        <View style={{flexDirection: 'row', alignContent: 'center', marginTop: 10}}>
+          <Image source={require('../assets/icons/checklist.png')} style={{width: 20, height: 20, marginRight: 10}}/>
+          <Text style={styles.checklistText}>수정사항이 있다면 "업데이트"를 누른 후 다음 단계로 진행해 주세요.</Text>
+        </View>
       </View>
-
-      <GestureHandlerRootView style={{ opacity: 0.5,}}>
-        <ViewShot ref={viewshotRef} style={styles.maskContainer}>
-          <View style={styles.canvasContainer}>
-            <GestureDetector gesture={pan}>
-              <Canvas ref={canvasRef} style={styles.canvas}>
-                {paths.map((p, index) => (
-                  <Path key={index} path={p.path.join(' ')} strokeWidth={p.stroke} style="stroke" color={p.color} />
-                ))}
-              </Canvas>
-            </GestureDetector>
-          </View>
-
-          <View style={styles.imageContainer}>
-            <Image source={require('../assets/dummy_mask.png')} style={styles.mask} resizeMode='contain' />
-          </View>
-        </ViewShot>
-      </GestureHandlerRootView>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={onCapture} style={styles.button}>
-          <Text style={styles.buttonText}>Update</Text>
-        </TouchableOpacity>
-      </View>
-
 
       <View style={styles.toolContainer}>
-        <Button title='back' onPress={handleBack}/>
-        <Button title='reset' onPress={handleReset}/>
-        <Button title='draw' onPress={() => handleColorChange('#fff')}/>
-        <Button title='erase' onPress={() => handleColorChange('#000')}/>
-        <Button title='5' onPress={() => handleWidthChange(5)}/>
-        <Button title='10' onPress={() => handleWidthChange(10)}/>
-        <Button title='15' onPress={() => handleWidthChange(15)}/>
+        <TouchableOpacity style={styles.toolButton} onPress={handleBack}>
+          <Image source={require('../assets/icons/undo.png')} style={{width: 30, height: 30}}/>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.toolButton} onPress={handleReset}>
+          <Text style={{fontFamily: 'SCDream5', fontSize: 15}}>RESET</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.toolButton} onPress={() => handleColorChange('#fff')}>
+          <Image source={require('../assets/icons/add.png')} style={{width: 30, height: 30}}/>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.toolButton} onPress={() => handleColorChange('#000')}>
+          <Image source={require('../assets/icons/remove.png')} style={{width: 30, height: 30}}/>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{backgroundColor:'#fff', width: 20, height: 20, borderRadius: 50, margin: 5, elevation: 4}}
+          onPress={() => handleWidthChange(5)}
+        />
+
+        <TouchableOpacity
+          style={{backgroundColor:'#fff', width: 25, height: 25, borderRadius: 50, margin: 5, elevation: 4 }}
+          onPress={() => handleWidthChange(10)}
+        />
+
+        <TouchableOpacity
+          style={{backgroundColor:'#fff', width: 30, height: 30, borderRadius: 50, margin: 5, elevation: 4 }}
+          onPress={() => handleWidthChange(15)}
+        />
       </View>
 
-      {viewShotURI && (
-        <View style={{width: 200, height: 200}}>
-          <Text style={styles.previewText}>Updated Mask:</Text>
-          <Image source={{ uri: viewShotURI }} style={{width: 200, height: 200}} />
+
+
+      <View style={styles.viewShotContainer}>
+        <View style={styles.textureContainer}>
+          <Image source={require('../assets/dummy_texture.png')} style={styles.texture} resizeMode='contain' />
         </View>
-      )}
+
+        <GestureHandlerRootView style={{ opacity: 0.5,}}>
+          <ViewShot ref={viewshotRef} style={styles.maskContainer}>
+            <View style={styles.imageContainer}>
+              <Image source={require('../assets/dummy_mask.png')} style={styles.mask} resizeMode='contain' />
+            </View>
+            <View style={styles.canvasContainer}>
+              <GestureDetector gesture={pan}>
+                <Canvas ref={canvasRef} style={styles.canvas}>
+                  {paths.map((p, index) => (
+                    <Path key={index} path={p.path.join(' ')} strokeWidth={p.stroke} style="stroke" color={p.color} />
+                  ))}
+                </Canvas>
+              </GestureDetector>
+            </View>
+          </ViewShot>
+        </GestureHandlerRootView>
+
+        {viewShotURI && (
+          <View style={{width: 100, height: 100}}>
+            <Text style={styles.previewText}>Updated Mask:</Text>
+            <Image source={{ uri: viewShotURI }} style={{width: 100, height: 100}} />
+          </View>
+        )}
+      </View>
+
+
+    <View style={{width: Dimensions.get('window').width, position: 'absolute', bottom: 20}}>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={onCapture} style={styles.button}>
+          <Text style={styles.buttonText}>업데이트</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
@@ -133,6 +160,8 @@ const EditMaskScreen = ({navigation}) => {
           <Text style={styles.buttonText}>다음</Text>
         </TouchableOpacity>
       </View>
+    </View>
+
 
     </View>
   );
@@ -146,21 +175,23 @@ const styles = StyleSheet.create({
   },
   textureContainer: {
     position: 'absolute',
-    width: Dimensions.get('window').width,
-    height: undefined,
-    aspectRatio: 1,
-    marginTop: 60,
+    // top: 70,
+    width: Dimensions.get('window').width * 0.9,
+    height: Dimensions.get('window').width * 0.9,
   },
   maskContainer: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').width,
-    marginTop: 60,
+    // top: 70,
+    width: Dimensions.get('window').width * 0.9,
+    height: Dimensions.get('window').width * 0.9,
+  },
+  viewShotContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    position: 'relative',
   },
   imageContainer: {
     position: 'absolute',
-    top: 0,
-    left: 0,
-    width: Dimensions.get('window').width,
+    width: Dimensions.get('window').width * 0.9,
     height: undefined,
     aspectRatio: 1,
     zIndex: 1
@@ -184,26 +215,20 @@ const styles = StyleSheet.create({
     width: undefined,
     height: undefined,
   },
-  exportContainer: {
-    position: 'absolute',
-  },
-  exportButton: {
-    position: 'absolute',
-    bottom: 100,
-    right: 20,
-    padding: 10,
-    backgroundColor: 'blue',
-    borderRadius: 8,
-  },
-  exportButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
   toolContainer: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 15
+  },
+  toolButton:{
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    elevation: 4,
+    marginHorizontal: 5,
+    justifyContent: 'center',
+    padding: 5
   },
   textContainer: {
-    flex: 0.3,
     width: Dimensions.get('window').width * 0.92,
   },
   step: {
@@ -212,7 +237,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   title: {
-    fontSize: 36,
+    fontSize: 32,
     fontFamily: 'SCDream8',
     color: '#333',
     marginBottom: 5,
@@ -229,12 +254,9 @@ const styles = StyleSheet.create({
     color: '#333'
   },
   buttonContainer: {
-    position: 'absolute',
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingHorizontal: 20,
-    bottom: 20,
   },
   button: {
     flex: 1,
@@ -244,7 +266,8 @@ const styles = StyleSheet.create({
     borderColor: '#333',
     borderWidth: 2,
     borderRadius: 20,
-    margin: 15
+    marginHorizontal: 15,
+    marginVertical: 5
   },
   buttonText: {
     fontSize: 18,
