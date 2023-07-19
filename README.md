@@ -57,5 +57,6 @@
 
 ### 기능 3: 다양한 움직임 적용 
 
-<img src="/Screenshots/Weather_main.png" width="30%" alt="Weather Main"></img>
-<img src="/Screenshots/Weather.gif" width="30%" alt="Weather GIF"></img>
+<img src="/screenshots/Home.png" width="30%" alt="Home"></img>
+<img src="/screenshots/NewCharacter.png" width="30%" alt="New Character"></img>
+<img src="/screenshots/Motion.png" width="30%" alt="Motion"></img>
