@@ -58,7 +58,10 @@
 
 <img src="/screenshots/EditMask_1.png" width="30%" alt="Edit Mask 1"></img>
 <img src="/screenshots/EditMask_2.png" width="30%" alt="Edit Mask 2"></img>
+
 <img src="/screenshots/EditJoint.png" width="30%" alt="Edit Joint"></img>
+<img src="/screenshots/EditJoint.gif" width="30%" alt="Edit Joint GIF"></img>
+
 
 <br>
 
@@ -70,7 +73,7 @@
 
 <img src="/screenshots/Home.png" width="30%" alt="Home"></img>
 <img src="/screenshots/NewCharacter.png" width="30%" alt="New Character"></img>
-<img src="/screenshots/Motion.png" width="30%" alt="Motion"></img>
+<img src="/screenshots/Demo.gif" width="30%" alt="Demo"></img>
 
 ### 기능 4: 나만의 움직임 적용
 시간 관계상 이 기능까지 구현하지 못하였지만, 동영상 파일을 업로드하면 bvh 파일로 변환하여 motion capture data로 나만의 무브먼트를 추가해 캐릭터에 적용하려고 하였다
